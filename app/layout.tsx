@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Real-Time Stock Market App",
-  description: "Real-time stock market app with live prices, search, personalized alerts, interactive charts, AI-powered insights, daily news summary, watchlists,",
+  title: "Signalist Stock Market App",
+  description: "Stock Market app built with Next.js, Shadcn, Better Auth, and Inngest. Track prices, set alerts, explore insights, manage watchlists, and automate workflows for notifications and analytics."
 };
 
 export default function RootLayout({
