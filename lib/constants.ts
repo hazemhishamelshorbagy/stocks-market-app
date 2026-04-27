@@ -4,6 +4,31 @@ export const NAV_ITEMS = [
     { href: "/watchlist", title: "WatchList" },
 ]
 
+export const investmentGoalsOptions = [
+  { value: "Growth", label: "Growth" },
+  { value: "Income", label: "Income" },
+  { value: "Capital Preservation", label: "Capital Preservation" },
+  { value: "Balanced", label: "Balanced" },
+  { value: "Speculation", label: "Speculation" },
+];
+
+export const riskToleranceOptions = [
+  { value: "Low", label: "Low" },
+  { value: "Medium", label: "Medium" },
+  { value: "High", label: "High" },
+  { value: "Very High", label: "Very High" },
+];
+
+export const industryOptions = [
+  { value: "Technology", label: "Technology" },
+  { value: "Healthcare", label: "Healthcare" },
+  { value: "Finance", label: "Finance" },
+  { value: "Energy", label: "Energy" },
+  { value: "Consumer Goods", label: "Consumer Goods" },
+  { value: "Utilities", label: "Utilities" },
+  { value: "Real Estate", label: "Real Estate" },
+];
+
 export const MARKET_OVERVIEW_WIDGETS_CONFIG =
 {
     "lineWidth": 2,
