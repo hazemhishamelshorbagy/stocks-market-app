@@ -8,7 +8,7 @@ const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await auth.api.getSession({ headers: await headers() });
   
   if (!session || !session.user) {
-    redirect("/sign-up");
+    redirect("/sign-in");
   }
 
   const user = {

@@ -24,7 +24,7 @@ const SignIn = () => {
   const onSubmit = async (data: SignInFormData) => {
    
     try {
-      console.log(data);
+      
       const response = await signInWithEmail(data);
       if (response.success) {
         toast.success("Logged in successfully!");
