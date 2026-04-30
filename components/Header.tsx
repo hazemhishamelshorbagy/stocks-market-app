@@ -3,8 +3,9 @@ import Link from 'next/link'
 import React from 'react'
 import NavItems from './NavItems'
 import Userdropdown from './Userdropdown'
+import { UserInfo } from 'os'
 
-const Header = () => {
+const Header = ({user}:{user:User}) => {
   return (
       <header className='sticky top-0 header'>
           <div className='container header-wrapper'>
@@ -14,7 +15,7 @@ const Header = () => {
               <nav className='hidden sm:block'>
              <NavItems/>
               </nav>
-             <Userdropdown/>
+        <Userdropdown user={user} />
           </div>
     </header>
   )

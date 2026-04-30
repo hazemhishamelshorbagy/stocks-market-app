@@ -10,11 +10,10 @@ const InputField = ({
   error,
   validation,
   disabled,
-  value,
 }: FormInputProps) => {
   return (
     <div className="space-y-2">
-      <label htmlFor="email" className="form-label text-gray-400">
+      <label htmlFor={name} className="form-label text-gray-400">
         {label}
       </label>
       <Input
@@ -22,7 +21,6 @@ const InputField = ({
         placeholder={placeholder}
         id={name}
         disabled={disabled}
-        value={value}
         {...register(name, validation)}
         className={`form-input mt-3 ${error ? "border-red-500 focus:ring-red-500" : "border-gray-600 focus:ring-yellow-500"} `}
       />

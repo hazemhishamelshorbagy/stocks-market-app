@@ -3,12 +3,15 @@ import { useForm } from "react-hook-form";
 import FooterLink from "@/components/forms/FooterLink";
 import InputField from "@/components/forms/InputField";
 import { Button } from "@/components/ui/button";
+import { signInWithEmail } from "@/lib/actions/auth.action";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const SignIn = () => {
+   const router = useRouter();
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors, isSubmitting },
   } = useForm<SignInFormData>({
     defaultValues: {
@@ -19,9 +22,21 @@ const SignIn = () => {
   });
 
   const onSubmit = async (data: SignInFormData) => {
+   
     try {
       console.log(data);
-    } catch (error) {}
+      const response = await signInWithEmail(data);
+      if (response.success) {
+        toast.success("Logged in successfully!");
+        router.push("/");
+
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error) {
+      console.error("Sign-in failed:", error);
+         toast.error("SignIn failed. Please try again.");
+    }
   };
 
   return (
@@ -34,10 +49,12 @@ const SignIn = () => {
           placeholder="test@gmail.com"
           register={register}
           error={errors.email}
-          validation={{
-            required: "Email  is required",
-            pattern: /^\w+@\w+\.\w+$/,
-            message: "Email address is required",
+         validation={{
+            required: "Email is required",
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: "Enter a valid email address",
+            },
           }}
         />
         <InputField
@@ -54,7 +71,7 @@ const SignIn = () => {
           disabled={isSubmitting}
           className="yellow-btn w-full mt-5"
         >
-          {isSubmitting ? "Creating Account" : "Start Your Investing Journey"}
+          {isSubmitting ? "Signing In..." : "Sign In"}
         </Button>
 
         <FooterLink
