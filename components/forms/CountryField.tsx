@@ -67,6 +67,7 @@ const CountryField = ({
       <Controller
         name={name}
         control={control}
+        defaultValue="US"
         rules={{
           required: required ? `Please select ${label.toLowerCase()}` : false,
         }}
@@ -84,49 +85,52 @@ const CountryField = ({
           )
 
           return (
-            <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger   className='country-select-trigger' asChild>
-                <button
-                  type="button"
-                  className="flex w-full items-center justify-between rounded-lg border border-gray-700 bg-slate-950 px-4 py-3 text-left text-sm text-white transition hover:border-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-500"
-                >
-                  <span className="truncate">{displayLabel}</span>
-                  <ChevronDown className="size-4 opacity-70" />
-                </button>
-              </PopoverTrigger>
+            <>
+              <input type="hidden" {...field} />
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger className="country-select-trigger" asChild>
+                  <button
+                    type="button"
+                    className="flex w-full items-center justify-between rounded-lg border border-gray-700 bg-slate-950 px-4 py-3 text-left text-sm text-white transition hover:border-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-500"
+                  >
+                    <span className="truncate">{displayLabel}</span>
+                    <ChevronDown className="size-4 opacity-70" />
+                  </button>
+                </PopoverTrigger>
 
-              <PopoverContent className="w-full max-w-md p-0">
-                <Command className="rounded-none border border-gray-700 bg-slate-950">
-                  <CommandInput
-                    value={query}
-                    onValueChange={setQuery}
-                    placeholder="Search country..."
-                  />
-                  <CommandList>
-                    {filteredCountries.length === 0 ? (
-                      <CommandEmpty>No countries found.</CommandEmpty>
-                    ) : (
-                      <CommandGroup>
-                        {filteredCountries.map((country) => (
-                          <CommandItem
-                            key={country.value}
-                            value={country.value}
-                            onSelect={() => {
-                              field.onChange(country.value)
-                              setOpen(false)
-                              setQuery("")
-                            }}
-                          >
-                            <span className="mr-2">{getCountryFlag(country.value)}</span>
-                            <span className="truncate">{country.label}</span>
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    )}
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
+                <PopoverContent className="w-full max-w-md p-0">
+                  <Command className="rounded-none border border-gray-700 bg-slate-950">
+                    <CommandInput
+                      value={query}
+                      onValueChange={setQuery}
+                      placeholder="Search country..."
+                    />
+                    <CommandList>
+                      {filteredCountries.length === 0 ? (
+                        <CommandEmpty>No countries found.</CommandEmpty>
+                      ) : (
+                        <CommandGroup>
+                          {filteredCountries.map((country) => (
+                            <CommandItem
+                              key={country.value}
+                              value={country.value}
+                              onSelect={(value) => {
+                                field.onChange(value)
+                                setOpen(false)
+                                setQuery("")
+                              }}
+                            >
+                              <span className="mr-2">{getCountryFlag(country.value)}</span>
+                              <span className="truncate">{country.label}</span>
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      )}
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </>
           )
         }}
       />

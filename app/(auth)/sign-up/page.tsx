@@ -4,14 +4,19 @@ import FooterLink from "@/components/forms/FooterLink";
 import InputField from "@/components/forms/InputField";
 import SelectField from "@/components/forms/SelectField";
 import { Button } from "@/components/ui/button";
+import {signupWithEmail} from "@/lib/actions/auth.action";
 import {
   investmentGoalsOptions,
   riskToleranceOptions,
   industryOptions,
 } from "@/lib/constants";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+
 import { useForm } from "react-hook-form";
 
 const SignUp = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -31,9 +36,26 @@ const SignUp = () => {
   });
 
   const onSubmit = async (data: SignUpFormData) => {
+    
+
     try {
-      console.log(data);
-    } catch (error) {}
+      // signupwith email server actions
+      const response = await signupWithEmail(data);
+      
+      if (response.success) {
+        toast.success("Account created successfully!");
+        router.push("/");
+      }else {
+        toast.error(response.message);
+      }
+    } catch (error) {
+      
+      toast.error("Signup failed. Please try again.");
+      return {
+        success: false,
+        message: error instanceof Error ? error.message : String(error),
+      };
+    }
   };
   return (
     <>
@@ -45,7 +67,7 @@ const SignUp = () => {
           placeholder="john doe"
           register={register}
           error={errors.fullName}
-          validation={{ required: "full name required", minlength: 2 }}
+          validation={{ required: "full name required", minLength: 2 }}
         />
         <InputField
           label="Email"
@@ -55,9 +77,11 @@ const SignUp = () => {
           type="email"
           error={errors.email}
           validation={{
-            required: "Email  is required",
-            pattern: /^\w+@\w+\.\w+$/,
-            message: "Email address is required",
+            required: "Email is required",
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: "Enter a valid email address",
+            },
           }}
         />
         <CountryField
@@ -104,8 +128,8 @@ const SignUp = () => {
           options={industryOptions}
           error={errors.preferredIndustry}
           required
-              />
-             
+        />
+
         <Button
           type="submit"
           disabled={isSubmitting}
