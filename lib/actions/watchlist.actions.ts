@@ -21,7 +21,7 @@ export const getWatchlistSymbolsByEmail = async (email: string): Promise<string[
       return [];
     }
 
-    const user = await db.collection("users").findOne({ email });
+    const user = await db.collection("user").findOne({ email });
 
     if (!user) {
       console.warn(`getWatchlistSymbolsByEmail: User with email ${email} not found`);

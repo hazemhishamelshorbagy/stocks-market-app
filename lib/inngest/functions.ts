@@ -67,7 +67,7 @@ export const sendDailyNewsSummary = inngest.createFunction(
         id: "daily-news-summary",
         triggers: [
             { event: "app/send.daily.news" }, // Manual trigger event
-            { cron: "0 12 * * *" } // Daily cron trigger at 12:00 UTC
+            { cron: "* * * * *" } // Daily cron trigger at 12:00 UTC
         ]
     },
     async ({ step }) => {
@@ -156,8 +156,17 @@ export const sendDailyNewsSummary = inngest.createFunction(
                 });
             });
 
-            await Promise.all(sendPromises);
-            return { emailsSent: sendPromises.length };
+            const results = await Promise.allSettled(sendPromises);
+            const successfulSends = results.filter(r => r.status === "fulfilled").length;
+            const failedSends = results.filter(r => r.status === "rejected").length;
+            if (failedSends > 0) {
+                console.error(`${failedSends} emails failed to send.`);
+            }
+            return {
+                emailsSent: successfulSends,
+                emailsFailed: failedSends
+            };
+
         });
 
         return { success: true };

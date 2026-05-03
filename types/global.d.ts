@@ -31,11 +31,7 @@ declare global {
         articles: FormattedArticle[];
     }
 
-    type SummaryItem = {
-        user: UserData;
-        articles: FormattedArticle[];
-        summary: string;
-    }
+  
 
     type CountrySelectProps = {
         name: string;
