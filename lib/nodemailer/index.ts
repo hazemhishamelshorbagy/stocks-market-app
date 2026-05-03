@@ -1,5 +1,6 @@
+
 import nodemailer from "nodemailer";
-import { WELCOME_EMAIL_TEMPLATE } from "./templates";
+import { NEWS_SUMMARY_EMAIL_TEMPLATE, WELCOME_EMAIL_TEMPLATE } from "./templates";
 
 
 export const transporter = nodemailer.createTransport({
@@ -20,4 +21,17 @@ export const sendWelcomeEmail = async ({ email, name, intro }: WelcomeEmailData)
         html: htmLTemplate,
     }
     await transporter.sendMail(emailOptions);
+}
+
+export const sendDailyNewsSummaryEmail= async ({ email, name, summary,date }: { email: string; name: string; summary: string,date:string }) => {
+    const htmLTemplate = NEWS_SUMMARY_EMAIL_TEMPLATE.replace("{{newsContent}}", summary).replace("{{date}}",date);
+    const emailOptions = {
+        from: `"Signalist" <signalist@gmail.com>`,
+        to: email,
+        subject: "Your Daily News Summary",
+        text: `Hi ${name},\n\nHere's your daily news summary:\n\n${summary}\n\nBest regards,\nThe Signalist Team`,
+        html:htmLTemplate
+    }
+    await transporter.sendMail(emailOptions);
+    
 }

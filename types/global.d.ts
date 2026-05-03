@@ -4,6 +4,12 @@ declare global {
         password: string;
     };
 
+    type SummaryItem = {
+        user: UserData;
+        articles: FormattedArticle[];
+        summary: string;
+
+    }
     type SignUpFormData = {
         fullName: string;
         email: string;
@@ -13,6 +19,19 @@ declare global {
         riskTolerance: string;
         preferredIndustry: string;
     };
+    type UserData = {
+        id?: string;
+        email?: string;
+        name?: string;
+    }
+
+    type NewsDataItem = {
+        user: UserData;
+        symbols: string[];
+        articles: FormattedArticle[];
+    }
+
+  
 
     type CountrySelectProps = {
         name: string;
@@ -215,6 +234,26 @@ declare global {
         threshold: number;
         changePercent?: number;
     };
+    type Article = {
+        id?: string;
+        url?: string;
+        headline: string;
+        summary: string;
+        image?: string;
+        source: string;
+        datetime: number;
+        category?: string;
+    }
+
+    type FormattedArticle = {
+        headline: string;
+        summary: string;
+        image?: string;
+        source: string;
+        datetime: number;
+        category?: string;
+    }
+
 }
 
 declare module "react-select-country-list" {
@@ -228,4 +267,4 @@ declare module "react-select-country-list" {
     };
 }
 
-export {};
+export { };
